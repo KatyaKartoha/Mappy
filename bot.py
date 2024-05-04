@@ -16,8 +16,11 @@ def handle_help(message):
 
 @bot.message_handler(commands=['show_city'])
 def handle_show_city(message):
-    city_name = message.text.split()[-1]
-    # Реализуй отрисовку города по запросу
+    colours =  message.text.split()[-1]
+    city_name = message.text.split()[-2]
+    manager.get_coordinates(city_name)
+    manager.create_grapf('img/city.png',[city_name], colours)
+    bot.send_photo(message.chat.id, photo=open('img/city.png', 'rb'))
 
 
 @bot.message_handler(commands=['remember_city'])
@@ -31,8 +34,10 @@ def handle_remember_city(message):
 
 @bot.message_handler(commands=['show_my_cities'])
 def handle_show_visited_cities(message):
+    colours =  message.text.split()[-1]
     cities = manager.select_cities(message.chat.id)
-    # Реализуй отрисовку всех городов
+    manager.create_grapf('img/cities.png', cities, colours)
+    bot.send_photo(message.chat.id, photo=open('img/cities.png', 'rb'))
 
 
 if __name__=="__main__":

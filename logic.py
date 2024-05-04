@@ -58,14 +58,54 @@ class DB_Map():
             coordinates = cursor.fetchone()
             return coordinates
 
-    def create_grapf(self, path, cities):
-        pass
-        
+    def create_grapf(self, path, cities, col):
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        ax.stock_img()
+        for city in cities:
+            
+            lat, lon = self.get_coordinates(city)
+
+            plt.plot([lon], [lat],
+            color=col, linewidth=1, marker='*',
+            transform=ccrs.Geodetic(),
+            )
+            plt.text(lon - 3, lat - 12, city,
+            horizontalalignment='right',
+            transform=ccrs.Geodetic())
+        plt.savefig(path)
+
+
+
     def draw_distance(self, city1, city2):
         pass
+        #  city_1 = city1
+        #  city_2 = city2
 
+        #  ny_lat, ny_lon = self.get_coordinates(city_1)
+        #  my_lat, my_lon = self.get_coordinates(city_2)
+
+        #  plt.plot([ny_lon], [ny_lat],
+        #  color='blue', linewidth=2, marker='o',
+        #  transform=ccrs.Geodetic(),
+        #  )
+
+        #  plt.plot([my_lon], [my_lat],
+        #          color='gray', linestyle='--',
+        #          transform=ccrs.PlateCarree(),
+        #          )
+
+        #  plt.text(ny_lon - 3, ny_lat - 12, city_1,
+        #          horizontalalignment='right',
+        #          transform=ccrs.Geodetic())
+
+        #  plt.text(my_lon + 3, my_lat - 12, city_2,
+        #          horizontalalignment='left',
+        #          transform=ccrs.Geodetic())
+        #  plt.show()
 
 if __name__=="__main__":
     
     m = DB_Map(DATABASE)
-    m.create_user_table()
+    #m.create_user_table()
+    #m.create_grapf('img/world.png', ['Sochi'], 'blue')
+    #m.create_grapf('img/worlds.png', ['Sochi', 'Moscow'], 'blue')
